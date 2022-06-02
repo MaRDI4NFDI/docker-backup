@@ -60,7 +60,7 @@ restore_images_backup() {
     mkdir -p "$IMAGE_BACKUP_DIR"
     tar -xzf "$BACKUP_FILE" -C "$IMAGE_BACKUP_DIR" images
     # import images as apache user, in order to get the correct permissions
-    su -l www-data -s /bin/bash -c 'php /var/www/html/maintenance/importImages.php --search-recursively --conf /shared/LocalSettings.php --comment "Importing images backup" '"$IMAGE_BACKUP_DIR"'/images'
+    su -l www-data -s /bin/bash -c 'php /var/www/html/maintenance/importImages.php '"$IMG_OPT_FLAGS"' --search-recursively --conf /shared/LocalSettings.php --comment "Importing images backup" '"$IMAGE_BACKUP_DIR"'/images'
     rm -rf "$IMAGE_BACKUP_DIR"
 
     if [[ $? -eq 0 ]]; then
@@ -88,6 +88,7 @@ _help() {
     printf "                                            -t xml     XML backup\n"
     printf "                                            -t sql     MySQL backup\n"
     printf "                                            -t img     images backup\n"
+    printf "        restore.sh -t img -o [-f file]  restore image backup, overwriting existing images\n"
 
 }
 
@@ -97,10 +98,11 @@ _help() {
 ###########################
 
 # Handle input flags
-while getopts "ht:f:" flag; do
+while getopts "ht:of:" flag; do
 case ${flag} in
     t) BACKUP_TYPE=$OPTARG;;
     f) BACKUP_FILE=$OPTARG;;
+    o) IMG_OPT_FLAGS="--overwrite";;
     h) _help
         exit 0;;
     \?) _help
