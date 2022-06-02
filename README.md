@@ -68,6 +68,7 @@ Open a shell to the backup container. In the /app dir, do:
 * `bash ./restore.sh -t xml -f portal_xml_backup_xxxx.xx.xx_xx.xx.xx.gz` to restore a specific XML backup. Pass the name of the file, not the full path.
 * `bash ./restore.sh -t img` to restore the latest images backup
 * `bash ./restore.sh -t img -f images_xxxx.xx.xx_xx.xx.xx.tar.gz` to restore a specific image backup. Pass the name of the file, not the full path.
+* `bash ./restore.sh -t img -o [-f FILE]` to restore an image backup, overwriting existing files.
 
 **Please note that:** 
 * When restoring the database from a SQL backup, all revisions will be overwritten.
